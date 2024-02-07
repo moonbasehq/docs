@@ -1,0 +1,366 @@
+## /logs
+
+### GET
+
+- Operation ID: logs-list
+- Summary: Get team logs
+- Description: Gets logs for a given team
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| ---- | -- | -------- | ---- | ----------- |
+| q | query | false | undefined | A search query to find logs by. |
+| projectIds | query | false | undefined | Comma delimited list of projectIds. Ex 'cuid1,cuid2,cuid3'. |
+| start | query | false | string |  |
+| end | query | false | string |  |
+| cursor | query | false | undefined | Indicates the next offset to start searching from. |
+| teamId | query | false | string |  |
+| limit | query | false | undefined |  |
+| rel | query | false | string |  |
+
+#### Responses
+
+**200**:
+- Description: Successful response
+##### Content
+
+**application/json**:
+```json
+{
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "body": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "additionalProperties": {}
+              }
+            ]
+          },
+          "level": {
+            "type": "string"
+          },
+          "usageBytes": {
+            "type": "string",
+            "default": "0"
+          },
+          "hostname": {
+            "type": "string"
+          },
+          "service": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "attributes": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "userId": {
+            "type": "string"
+          },
+          "teamId": {
+            "type": "string"
+          },
+          "uuid": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "body",
+          "userId",
+          "teamId",
+          "uuid"
+        ],
+        "additionalProperties": false
+      },
+      "description": "A list of logs."
+    },
+    "cursor": {
+      "type": "string",
+      "nullable": true,
+      "default": null,
+      "description": "Indicates the next offset to start searching from."
+    }
+  },
+  "required": [
+    "data"
+  ],
+  "additionalProperties": false
+}
+```
+**default**:
+- Description: 
+
+### POST
+
+- Operation ID: logs-create
+- Summary: Ingest logs
+- Description: Ingests log messages for a team.
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| ---- | -- | -------- | ---- | ----------- |
+
+#### Responses
+
+**200**:
+- Description: Successful response
+##### Content
+
+**application/json**:
+```json
+{
+  "type": "object",
+  "properties": {
+    "success": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "success"
+  ],
+  "additionalProperties": false
+}
+```
+**default**:
+- Description: 
+
+## /logs/count
+
+### GET
+
+- Operation ID: logs-count
+- Summary: Count daily logs
+- Description: Gets a daily aggreagtion of logs for a given team.
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| ---- | -- | -------- | ---- | ----------- |
+| teamId | query | false | string |  |
+| metric | query | true | string |  |
+
+#### Responses
+
+**200**:
+- Description: Successful response
+##### Content
+
+**application/json**:
+```json
+{
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "count": {
+        "type": "number"
+      },
+      "date": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "count",
+      "date"
+    ],
+    "additionalProperties": false
+  }
+}
+```
+**default**:
+- Description: 
+
+## /logs/total
+
+### GET
+
+- Operation ID: logs-total
+- Summary: Total Log Count
+- Description: Gets the total of all logs collected and held in Moonbase.
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| ---- | -- | -------- | ---- | ----------- |
+| teamId | query | false | string |  |
+
+#### Responses
+
+**200**:
+- Description: Successful response
+##### Content
+
+**application/json**:
+```json
+{
+  "type": "object",
+  "properties": {
+    "count": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "count"
+  ],
+  "additionalProperties": false
+}
+```
+**default**:
+- Description: 
+
+## /logs/total/usage
+
+### GET
+
+- Operation ID: logs-usageTotal
+- Summary: Total Log Usage
+- Description: Gets the total in bytes of all logs collected and held in Moonbase.
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| ---- | -- | -------- | ---- | ----------- |
+| teamId | query | false | string |  |
+
+#### Responses
+
+**200**:
+- Description: Successful response
+##### Content
+
+**application/json**:
+```json
+{
+  "type": "object",
+  "properties": {
+    "usage": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "usage"
+  ],
+  "additionalProperties": false
+}
+```
+**default**:
+- Description: 
+
+## /logs/total/interval
+
+### GET
+
+- Operation ID: logs-interval
+- Summary: Total Log Usage
+- Description: Gets the occurrence of logs across a timeline, grouped by date interval.
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| ---- | -- | -------- | ---- | ----------- |
+| teamId | query | false | string |  |
+| rel | query | false | string |  |
+| start | query | false | string |  |
+| end | query | false | string |  |
+| q | query | false | undefined | A search query to find logs by. |
+| projectIds | query | false | undefined | Comma delimited list of projectIds. Ex 'cuid1,cuid2,cuid3'. |
+
+#### Responses
+
+**200**:
+- Description: Successful response
+##### Content
+
+**application/json**:
+```json
+{
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "other": {
+        "type": "number"
+      },
+      "date": {
+        "type": "string"
+      },
+      "error": {
+        "type": "number"
+      }
+    },
+    "required": [
+      "other",
+      "date",
+      "error"
+    ],
+    "additionalProperties": false
+  }
+}
+```
+**default**:
+- Description: 
+
+## /logs/attributes
+
+### GET
+
+- Operation ID: logs-attributes
+- Summary: Active log attributes
+- Description: Gets all active log attributes across the team. Used for suggestions in the query builder..
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| ---- | -- | -------- | ---- | ----------- |
+| teamId | query | false | string |  |
+
+#### Responses
+
+**200**:
+- Description: Successful response
+##### Content
+
+**application/json**:
+```json
+{
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "key": {
+        "type": "string",
+        "description": "The key of the attribute within Moonbase."
+      },
+      "occurences": {
+        "type": "string",
+        "description": "The count of occurences of the attribute key"
+      }
+    },
+    "required": [
+      "key",
+      "occurences"
+    ],
+    "additionalProperties": false
+  }
+}
+```
+**default**:
+- Description: 
+

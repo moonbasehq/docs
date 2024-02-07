@@ -1,0 +1,38 @@
+{
+"team":{
+    "title": "Team",
+     "theme": {
+         "layout": "full"
+       }
+ },
+ "projects":{
+    "title": "Projects",
+     "theme": {
+         "layout": "full"
+       }
+ },
+ "logs":{
+    "title": "Logs",
+     "theme": {
+         "layout": "full"
+       }
+ },
+ "integrations":{
+    "title": "Integrations",
+     "theme": {
+         "layout": "full"
+       }
+ },
+ "tokens":{
+    "title": "Tokens",
+     "theme": {
+         "layout": "full"
+       }
+ },
+ "api":{
+    "title": "API",
+     "theme": {
+         "layout": "full"
+       }
+ }
+}

@@ -1,74 +1,95 @@
 const fs = require('fs');
 
+const groupedPaths = ['projects', 'logs', 'tokens', 'team', 'integrations'];
+
 // This will be changed to support getting latest api spec
 const openApiSpec = JSON.parse(fs.readFileSync('./mock.json', 'utf8'));
 
-const mdxContent = convertToMdx(openApiSpec);
+const mdxContent = convertToMdx(openApiSpec, groupedPaths);
 
-fs.writeFileSync('./pages/apiDocs.mdx', mdxContent, 'utf8');
+groupedPaths.forEach((path) => {
+  fs.writeFileSync(`./pages/apiDocs/${path}.mdx`, mdxContent[path], 'utf8');
+});
 
-function convertToMdx(openApiSpec) {
-  let mdxContent = '';
+function convertToMdx(openApiSpec, groupedPaths) {
+  const mdxContent = {};
 
   // Convert paths
   for (const [path, methods] of Object.entries(openApiSpec.paths)) {
-    // Replace path parameters with colon-prefixed placeholders
-    const pathWithPlaceholders = path.replace(/{([^}]+)}/g, ':$1');
+    groupedPaths.forEach((groupedPath) => {
+      let currentGroupedContent = '';
+        // TODO: clean this up to use tag property
+      if (path.includes(groupedPath)) {
+        // Replace path parameters with colon-prefixed placeholders
+        const pathWithPlaceholders = path.replace(/{([^}]+)}/g, ':$1');
+        currentGroupedContent += `## ${pathWithPlaceholders}\n\n`;
 
-    mdxContent += `## ${pathWithPlaceholders}\n\n`;
+        // Convert methods
+        for (const [method, details] of Object.entries(methods)) {
+          currentGroupedContent += `### ${method.toUpperCase()}\n\n`;
+          currentGroupedContent += `- Operation ID: ${details.operationId}\n`;
+          currentGroupedContent += `- Summary: ${details.summary}\n`;
+          currentGroupedContent += `- Description: ${details.description}\n\n`;
 
-    // Convert methods
-    for (const [method, details] of Object.entries(methods)) {
-      mdxContent += `### ${method.toUpperCase()}\n\n`;
-      mdxContent += `- Operation ID: ${details.operationId}\n`;
-      mdxContent += `- Summary: ${details.summary}\n`;
-      mdxContent += `- Description: ${details.description}\n\n`;
+          // Convert parameters (if any)
+          if (details.parameters) {
+            currentGroupedContent += '#### Parameters\n\n';
+            currentGroupedContent +=
+              '| Name | In | Required | Type | Description |\n';
+            currentGroupedContent +=
+              '| ---- | -- | -------- | ---- | ----------- |\n';
 
-      // Convert parameters (if any)
-      if (details.parameters) {
-        mdxContent += '#### Parameters\n\n';
-        mdxContent += '| Name | In | Required | Type | Description |\n';
-        mdxContent += '| ---- | -- | -------- | ---- | ----------- |\n';
-
-        for (const param of details.parameters) {
-          mdxContent += `| ${param.name} | ${param.in} | ${param.required} | ${
-            param.schema.type
-          } | ${param.description || ''} |\n`;
-        }
-
-        mdxContent += '\n';
-      }
-
-      // Convert responses (if any)
-      if (details.responses) {
-        mdxContent += '#### Responses\n\n';
-
-        for (const [statusCode, response] of Object.entries(
-          details.responses
-        )) {
-          mdxContent += `**${statusCode}**:\n`;
-          mdxContent += `- Description: ${response.description || ''}\n`;
-
-          // Convert response content (if available)
-          if (response.content) {
-            mdxContent += '##### Content\n\n';
-
-            for (const [contentType, contentDetails] of Object.entries(
-              response.content
-            )) {
-              mdxContent += `**${contentType}**:\n`;
-              mdxContent += '```json\n';
-              mdxContent += JSON.stringify(contentDetails.schema, null, 2);
-              mdxContent += '\n```\n';
+            for (const param of details.parameters) {
+              currentGroupedContent += `| ${param.name} | ${param.in} | ${
+                param.required
+              } | ${param.schema.type} | ${param.description || ''} |\n`;
             }
+
+            currentGroupedContent += '\n';
+          }
+
+          // Convert responses (if any)
+          if (details.responses) {
+            currentGroupedContent += '#### Responses\n\n';
+
+            for (const [statusCode, response] of Object.entries(
+              details.responses
+            )) {
+              currentGroupedContent += `**${statusCode}**:\n`;
+              currentGroupedContent += `- Description: ${
+                response.description || ''
+              }\n`;
+
+              // Convert response content (if available)
+              if (response.content) {
+                currentGroupedContent += '##### Content\n\n';
+
+                for (const [contentType, contentDetails] of Object.entries(
+                  response.content
+                )) {
+                  currentGroupedContent += `**${contentType}**:\n`;
+                  currentGroupedContent += '```json\n';
+                  currentGroupedContent += JSON.stringify(
+                    contentDetails.schema,
+                    null,
+                    2
+                  );
+                  currentGroupedContent += '\n```\n';
+                }
+              }
+            }
+
+            currentGroupedContent += '\n';
           }
         }
 
-        mdxContent += '\n';
+        if (typeof mdxContent[groupedPath] === 'string') {
+          mdxContent[groupedPath] += currentGroupedContent;
+        } else {
+          mdxContent[groupedPath] = '';
+        }
       }
-    }
-
-    mdxContent += '\n';
+    });
   }
 
   return mdxContent;

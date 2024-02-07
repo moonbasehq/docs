@@ -1,0 +1,157 @@
+## /teams/:teamId/integrations/:integrationId
+
+### GET
+
+- Operation ID: integrationConfigs-read
+- Summary: Read Integration Configuration
+- Description: Reads an integration configuration for a team.
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| ---- | -- | -------- | ---- | ----------- |
+| teamId | path | true | string | ID of the team that the log is for. |
+| integrationId | path | true | string | The id of the integration |
+
+#### Responses
+
+**200**:
+- Description: Successful response
+##### Content
+
+**application/json**:
+```json
+{
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "teamId": {
+        "type": "string",
+        "pattern": "^[cC][^\\s-]{8,}$",
+        "description": "The name of the team the configuration belongs to."
+      },
+      "projectIntegrations": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "projectId": {
+              "type": "string",
+              "pattern": "^[cC][^\\s-]{8,}$"
+            }
+          },
+          "required": [
+            "projectId"
+          ],
+          "additionalProperties": false
+        },
+        "description": "The configured projects."
+      },
+      "deletedAt": {
+        "type": "string",
+        "format": "date-time",
+        "nullable": true,
+        "description": "The date the config was deleted"
+      },
+      "integrationId": {
+        "type": "string",
+        "pattern": "^[cC][^\\s-]{8,}$",
+        "description": "The ID of the associated integration type."
+      },
+      "id": {
+        "type": "string",
+        "pattern": "^[cC][^\\s-]{8,}$",
+        "description": "The ID of the integration configuration."
+      },
+      "encryptedConfig": {
+        "description": "The parsed version of the encrypted configuration."
+      },
+      "enabled": {
+        "type": "boolean",
+        "description": "Whether the config is enabled."
+      },
+      "error": {
+        "type": "string",
+        "nullable": true,
+        "description": "Potential error on the configuration."
+      },
+      "createdAt": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Date when the config was created."
+      },
+      "config": {
+        "description": "Values for the configuration"
+      },
+      "configJobs": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "completedAt": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true,
+              "description": "Completed time of the configuration job"
+            },
+            "createdAt": {
+              "type": "string",
+              "format": "date-time",
+              "description": "When the config job was created"
+            },
+            "error": {
+              "type": "string",
+              "nullable": true,
+              "description": "Potential error with the config job."
+            },
+            "id": {
+              "type": "string",
+              "description": "ID of the config job."
+            },
+            "integrationConfigId": {
+              "type": "string",
+              "description": "ID of the associated integration configuration."
+            },
+            "output": {
+              "description": "Arbitrary output of the config job."
+            },
+            "state": {
+              "type": "string",
+              "enum": [
+                "error",
+                "complete",
+                "pending"
+              ]
+            }
+          },
+          "required": [
+            "completedAt",
+            "createdAt",
+            "error",
+            "id",
+            "integrationConfigId",
+            "state"
+          ],
+          "additionalProperties": false
+        }
+      }
+    },
+    "required": [
+      "teamId",
+      "projectIntegrations",
+      "deletedAt",
+      "integrationId",
+      "id",
+      "enabled",
+      "error",
+      "createdAt",
+      "configJobs"
+    ],
+    "additionalProperties": false
+  }
+}
+```
+**default**:
+- Description: 
+
