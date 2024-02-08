@@ -1,0 +1,80 @@
+## /tokens
+
+### POST
+
+- Operation ID: tokens-create
+- Summary: Create token
+- Description: Create an API token for use in Moonbase
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| ---- | -- | -------- | ---- | ----------- |
+
+#### Responses
+
+**200**:
+- Description: Successful response
+##### Content
+
+**application/json**:
+```json
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[cC][^\\s-]{8,}$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "expiresAt": {
+      "type": "string",
+      "format": "date-time",
+      "nullable": true
+    },
+    "lastUsedAt": {
+      "type": "string",
+      "format": "date-time",
+      "nullable": true
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "deletedAt": {
+      "type": "string",
+      "format": "date-time",
+      "nullable": true
+    },
+    "token": {
+      "type": "string"
+    },
+    "user": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "email"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "createdAt",
+    "token",
+    "user"
+  ],
+  "additionalProperties": false
+}
+```
+**default**:
+- Description: 
+

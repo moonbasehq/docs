@@ -1,3 +1,248 @@
+## /integrations
+
+### GET
+
+- Operation ID: integrationTypes-list
+- Summary: List Integrations
+- Description: Lists all available Moonbase integration types.
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| ---- | -- | -------- | ---- | ----------- |
+
+#### Responses
+
+**200**:
+- Description: Successful response
+##### Content
+
+**application/json**:
+```json
+{}
+```
+**default**:
+- Description: 
+
+## /teams/:teamId/configs
+
+### POST
+
+- Operation ID: integrationConfigs-create
+- Summary: Create Integration Configuration
+- Description: Creates an integration configuration for a given team
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| ---- | -- | -------- | ---- | ----------- |
+| teamId | path | true | string | ID of the team that the log is for. |
+
+#### Responses
+
+**200**:
+- Description: Successful response
+##### Content
+
+**application/json**:
+```json
+{
+  "type": "object",
+  "properties": {
+    "teamId": {
+      "type": "string",
+      "pattern": "^[cC][^\\s-]{8,}$",
+      "description": "The name of the team the configuration belongs to."
+    },
+    "deletedAt": {
+      "type": "string",
+      "format": "date-time",
+      "nullable": true,
+      "description": "The date the config was deleted"
+    },
+    "integrationId": {
+      "type": "string",
+      "pattern": "^[cC][^\\s-]{8,}$",
+      "description": "The ID of the associated integration type."
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[cC][^\\s-]{8,}$",
+      "description": "The ID of the integration configuration."
+    },
+    "encryptedConfig": {
+      "description": "The parsed version of the encrypted configuration."
+    },
+    "enabled": {
+      "type": "boolean",
+      "description": "Whether the config is enabled."
+    },
+    "error": {
+      "type": "string",
+      "nullable": true,
+      "description": "Potential error on the configuration."
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Date when the config was created."
+    },
+    "config": {
+      "description": "Values for the configuration"
+    }
+  },
+  "required": [
+    "teamId",
+    "deletedAt",
+    "integrationId",
+    "id",
+    "enabled",
+    "error",
+    "createdAt"
+  ],
+  "additionalProperties": false
+}
+```
+**default**:
+- Description: 
+
+## /teams/:teamId/configs/:configId
+
+### DELETE
+
+- Operation ID: integrationConfigs-delete
+- Summary: Delete Integration Configuration
+- Description: Deletes an integration configuration for a given team.
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| ---- | -- | -------- | ---- | ----------- |
+| teamId | path | true | string | ID of the team that the configuration is for. |
+| configId | path | true | string | The id of the integration config to delete. |
+
+#### Responses
+
+**200**:
+- Description: Successful response
+##### Content
+
+**application/json**:
+```json
+{}
+```
+**default**:
+- Description: 
+
+## /teams/:teamId/configs/:configId
+
+### DELETE
+
+- Operation ID: integrationConfigs-delete
+- Summary: Delete Integration Configuration
+- Description: Deletes an integration configuration for a given team.
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| ---- | -- | -------- | ---- | ----------- |
+| teamId | path | true | string | ID of the team that the configuration is for. |
+| configId | path | true | string | The id of the integration config to delete. |
+
+#### Responses
+
+**200**:
+- Description: Successful response
+##### Content
+
+**application/json**:
+```json
+{}
+```
+**default**:
+- Description: 
+
+### PATCH
+
+- Operation ID: integrationConfigs-update
+- Summary: Update Integration Configuration
+- Description: Updates an integration configuration for a team.
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| ---- | -- | -------- | ---- | ----------- |
+| teamId | path | true | string | ID of the team that the log is for. |
+| configId | path | true | string | The id of the configuration to update. |
+
+#### Responses
+
+**200**:
+- Description: Successful response
+##### Content
+
+**application/json**:
+```json
+{
+  "type": "object",
+  "properties": {
+    "teamId": {
+      "type": "string",
+      "pattern": "^[cC][^\\s-]{8,}$",
+      "description": "The name of the team the configuration belongs to."
+    },
+    "deletedAt": {
+      "type": "string",
+      "format": "date-time",
+      "nullable": true,
+      "description": "The date the config was deleted"
+    },
+    "integrationId": {
+      "type": "string",
+      "pattern": "^[cC][^\\s-]{8,}$",
+      "description": "The ID of the associated integration type."
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[cC][^\\s-]{8,}$",
+      "description": "The ID of the integration configuration."
+    },
+    "encryptedConfig": {
+      "description": "The parsed version of the encrypted configuration."
+    },
+    "enabled": {
+      "type": "boolean",
+      "description": "Whether the config is enabled."
+    },
+    "error": {
+      "type": "string",
+      "nullable": true,
+      "description": "Potential error on the configuration."
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Date when the config was created."
+    },
+    "config": {
+      "description": "Values for the configuration"
+    }
+  },
+  "required": [
+    "teamId",
+    "deletedAt",
+    "integrationId",
+    "id",
+    "enabled",
+    "error",
+    "createdAt"
+  ],
+  "additionalProperties": false
+}
+```
+**default**:
+- Description: 
+
 ## /teams/:teamId/integrations/:integrationId
 
 ### GET

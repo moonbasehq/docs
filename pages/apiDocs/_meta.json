@@ -1,11 +1,11 @@
 {
-"team":{
-    "title": "Team",
+"health-check":{
+    "title": "Health-Check",
      "theme": {
          "layout": "full"
        }
  },
- "projects":{
+ "project":{
     "title": "Projects",
      "theme": {
          "layout": "full"
@@ -23,14 +23,8 @@
          "layout": "full"
        }
  },
- "tokens":{
+ "token":{
     "title": "Tokens",
-     "theme": {
-         "layout": "full"
-       }
- },
- "api":{
-    "title": "API",
      "theme": {
          "layout": "full"
        }

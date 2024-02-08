@@ -1,0 +1,32 @@
+## /health
+
+### GET
+
+- Operation ID: health
+- Summary: Health check
+- Description: Check if the API is healthy.
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| ---- | -- | -------- | ---- | ----------- |
+
+#### Responses
+
+**200**:
+- Description: Successful response
+##### Content
+
+**application/json**:
+```json
+{
+  "type": "string",
+  "enum": [
+    "HEALTHY"
+  ],
+  "description": "Returns 'HEALTHY' if the API is healthy."
+}
+```
+**default**:
+- Description: 
+

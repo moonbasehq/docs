@@ -1,3 +1,235 @@
+## /logs/:id
+
+### GET
+
+- Operation ID: logs-getSingle
+- Summary: Get team logs
+- Description: Gets logs for a given team
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| ---- | -- | -------- | ---- | ----------- |
+| id | path | true | string | The id of the log |
+| teamId | query | false | string |  |
+
+#### Responses
+
+**200**:
+- Description: Successful response
+##### Content
+
+**application/json**:
+```json
+{
+  "type": "object",
+  "properties": {
+    "body": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "object",
+          "additionalProperties": {}
+        }
+      ]
+    },
+    "level": {
+      "type": "string"
+    },
+    "usageBytes": {
+      "type": "string",
+      "default": "0"
+    },
+    "hostname": {
+      "type": "string"
+    },
+    "service": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "attributes": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "userId": {
+      "type": "string"
+    },
+    "teamId": {
+      "type": "string"
+    },
+    "project": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[cC][^\\s-]{8,}$",
+          "description": "The ID of the project associated with the log"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the project"
+        },
+        "type": {
+          "type": "string",
+          "nullable": true,
+          "description": "The type of project"
+        },
+        "environment": {
+          "type": "string",
+          "nullable": true,
+          "description": "Project environment"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "type",
+        "environment"
+      ],
+      "additionalProperties": false
+    },
+    "user": {
+      "type": "object",
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "description": "The display name of the user who committed the log"
+        }
+      },
+      "required": [
+        "displayName"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "body",
+    "userId",
+    "teamId",
+    "project",
+    "user"
+  ],
+  "additionalProperties": false
+}
+```
+**default**:
+- Description: 
+
+## /logs
+
+### GET
+
+- Operation ID: logs-list
+- Summary: Get team logs
+- Description: Gets logs for a given team
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| ---- | -- | -------- | ---- | ----------- |
+| q | query | false | undefined | A search query to find logs by. |
+| projectIds | query | false | undefined | Comma delimited list of projectIds. Ex 'cuid1,cuid2,cuid3'. |
+| start | query | false | string |  |
+| end | query | false | string |  |
+| cursor | query | false | undefined | Indicates the next offset to start searching from. |
+| teamId | query | false | string |  |
+| limit | query | false | undefined |  |
+| rel | query | false | string |  |
+
+#### Responses
+
+**200**:
+- Description: Successful response
+##### Content
+
+**application/json**:
+```json
+{
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "body": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "additionalProperties": {}
+              }
+            ]
+          },
+          "level": {
+            "type": "string"
+          },
+          "usageBytes": {
+            "type": "string",
+            "default": "0"
+          },
+          "hostname": {
+            "type": "string"
+          },
+          "service": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "attributes": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "userId": {
+            "type": "string"
+          },
+          "teamId": {
+            "type": "string"
+          },
+          "uuid": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "body",
+          "userId",
+          "teamId",
+          "uuid"
+        ],
+        "additionalProperties": false
+      },
+      "description": "A list of logs."
+    },
+    "cursor": {
+      "type": "string",
+      "nullable": true,
+      "default": null,
+      "description": "Indicates the next offset to start searching from."
+    }
+  },
+  "required": [
+    "data"
+  ],
+  "additionalProperties": false
+}
+```
+**default**:
+- Description: 
+
 ## /logs
 
 ### GET
