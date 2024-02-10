@@ -1,4 +1,5 @@
 const fs = require('fs');
+const constants = require('./constants');
 
 // This will be changed to support getting latest api spec
 const openApiSpec = JSON.parse(fs.readFileSync('./mock.json', 'utf8'));
@@ -21,8 +22,20 @@ function convertToMdx(openApiSpec) {
 
     for (const [method, details] of Object.entries(methods)) {
       const tag = details.tags[0].toLowerCase().trim().replace(' ', '-');
-   
-      currentGroupedContent += `### ${method.toUpperCase()}\n\n`;
+      const actionMethod = method.toUpperCase();
+
+      currentGroupedContent += `<br/>
+      <span
+      style={{
+        backgroundColor: '${constants.ACTION_COLOR_MAPPING[actionMethod]}',
+        color: 'white',
+        textAlign: 'center',
+        padding: '4px 8px',
+        borderRadius: '5px',
+        fontWeight: '700',
+      }}
+    >${actionMethod}</span>
+      \n`;
       currentGroupedContent += `- Operation ID: ${details.operationId}\n`;
       currentGroupedContent += `- Summary: ${details.summary}\n`;
       currentGroupedContent += `- Description: ${details.description}\n\n`;
