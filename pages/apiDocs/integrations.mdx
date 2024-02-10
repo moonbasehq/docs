@@ -136,32 +136,6 @@
 
 ## /teams/:teamId/configs/:configId
 
-### DELETE
-
-- Operation ID: integrationConfigs-delete
-- Summary: Delete Integration Configuration
-- Description: Deletes an integration configuration for a given team.
-
-#### Parameters
-
-| Name | In | Required | Type | Description |
-| ---- | -- | -------- | ---- | ----------- |
-| teamId | path | true | string | ID of the team that the configuration is for. |
-| configId | path | true | string | The id of the integration config to delete. |
-
-#### Responses
-
-**200**:
-- Description: Successful response
-##### Content
-
-**application/json**:
-```json
-{}
-```
-**default**:
-- Description: 
-
 ### PATCH
 
 - Operation ID: integrationConfigs-update

@@ -1,32 +1,10 @@
 {
-"health-check":{
-    "title": "Health-Check",
-     "theme": {
-         "layout": "full"
-       }
- },
- "project":{
-    "title": "Projects",
-     "theme": {
-         "layout": "full"
-       }
- },
- "logs":{
-    "title": "Logs",
-     "theme": {
-         "layout": "full"
-       }
- },
- "integrations":{
-    "title": "Integrations",
-     "theme": {
-         "layout": "full"
-       }
- },
- "token":{
-    "title": "Tokens",
-     "theme": {
-         "layout": "full"
-       }
- }
+"health-check": "Health-Check",
+ "project":"Projects",
+ "logs": "Logs",
+ "integrations":"Integrations",
+ "token":"Tokens"
 }
+
+
+

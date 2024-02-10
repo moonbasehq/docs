@@ -19,9 +19,9 @@ function convertToMdx(openApiSpec) {
     const pathWithPlaceholders = path.replace(/{([^}]+)}/g, ':$1');
     currentGroupedContent += `## ${pathWithPlaceholders}\n\n`;
 
-    // Convert methods
     for (const [method, details] of Object.entries(methods)) {
       const tag = details.tags[0].toLowerCase().trim().replace(' ', '-');
+   
       currentGroupedContent += `### ${method.toUpperCase()}\n\n`;
       currentGroupedContent += `- Operation ID: ${details.operationId}\n`;
       currentGroupedContent += `- Summary: ${details.summary}\n`;
@@ -82,6 +82,7 @@ function convertToMdx(openApiSpec) {
       } else {
         mdxContent[tag] = currentGroupedContent;
       }
+      currentGroupedContent = `## ${pathWithPlaceholders}\n\n`;
     }
   }
 

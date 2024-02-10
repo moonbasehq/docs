@@ -18,6 +18,9 @@ export default {
   project: {
     link: 'https://github.com/shuding/nextra'
   },
+  sidebar: {
+    defaultMenuCollapseLevel: 1,
+  },
   head: (
     <>
       <link rel="icon" href="/favicon-32x32.png" type="image/png" />
