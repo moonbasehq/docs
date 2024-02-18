@@ -1,13 +1,16 @@
 const fs = require('fs');
 const constants = require('./constants');
 
-// This will be changed to support getting latest api spec
-const openApiSpec = JSON.parse(fs.readFileSync('./mock.json', 'utf8'));
+fetch(constants.OPEN_API_SPEC_ENDPOINT).then((resp) => {
+  if (resp.ok) {
+    resp.json().then((data) => {
+      const mdxContent = convertToMdx(data);
 
-const mdxContent = convertToMdx(openApiSpec);
-
-Object.keys(mdxContent).forEach((tag) => {
-  fs.writeFileSync(`./pages/apiDocs/${tag}.mdx`, mdxContent[tag], 'utf8');
+      Object.keys(mdxContent).forEach((tag) => {
+        fs.writeFileSync(`./pages/apiDocs/${tag}.mdx`, mdxContent[tag], 'utf8');
+      });
+    });
+  }
 });
 
 function convertToMdx(openApiSpec) {
