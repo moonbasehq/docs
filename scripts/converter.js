@@ -7,7 +7,7 @@ fetch(constants.OPEN_API_SPEC_ENDPOINT).then((resp) => {
       const mdxContent = convertToMdx(data);
 
       Object.keys(mdxContent).forEach((tag) => {
-        fs.writeFileSync(`./pages/apiDocs/${tag}.mdx`, mdxContent[tag], 'utf8');
+        fs.writeFileSync(`./pages/api-docs/${tag}.mdx`, mdxContent[tag], 'utf8');
       });
     });
   }
