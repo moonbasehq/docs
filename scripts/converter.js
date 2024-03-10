@@ -7,7 +7,7 @@ const openApiSpec = JSON.parse(fs.readFileSync('./mock.json', 'utf8'));
 const mdxContent = convertToMdx(openApiSpec);
 
 Object.keys(mdxContent).forEach((tag) => {
-  fs.writeFileSync(`./pages/apiDocs/${tag}.mdx`, mdxContent[tag], 'utf8');
+  fs.writeFileSync(`./pages/api/${tag}.mdx`, mdxContent[tag], 'utf8');
 });
 
 function convertToMdx(openApiSpec) {
