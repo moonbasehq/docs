@@ -16,7 +16,7 @@ const logo = (
 export default {
   logo,
   project: {
-    link: 'https://github.com/shuding/nextra'
+    link: 'https://github.com/moonbasehq'
   },
   sidebar: {
     defaultMenuCollapseLevel: 1,
