@@ -3,6 +3,6 @@
     "quickstart": "Quickstart",
     "logs": "Logging",
     "mql": "MQL",
-    "api-docs": "API Docs",
-    "sdks": "SDKs"
+    "sdks": "SDKs",
+    "api-docs": "API Docs"
 }
