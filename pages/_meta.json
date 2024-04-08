@@ -1,5 +1,8 @@
 {
     "index": "Home",
+    "quickstart": "Quickstart",
+    "logs": "Logging",
     "mql": "MQL",
-    "api-docs": "API Docs"
+    "api-docs": "API Docs",
+    "sdks": "SDKs"
 }

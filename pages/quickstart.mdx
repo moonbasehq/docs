@@ -1,0 +1,65 @@
+# Quickstart
+
+Learn how to quickly set up Moonbase.
+
+## Prerequisites
+
+First things first:
+
+1. Create a project
+
+![Project](../public/project.png "Moonbase Project")
+
+2. Set up an API key:
+
+![Tokens](../public/tokens.png "Moonbase tokens")
+
+## Installation
+
+Install the SDK. For this example, we'll be using the Node SDK.
+
+```bash
+pnpm i --save @moonbasehq/js-core
+```
+
+Configure the SDK
+
+```js
+const moon = new Moonbase({
+  apiKey: "moonbase_72UyVRAPaKRhkbt1uEoa34NKhf2EsiXQqeEOjln36JU=",
+});
+```
+
+Ingest logs for a project
+
+```js
+import { Moonbase } from "@moonbasehq/js";
+import { faker } from "@faker-js/faker";
+
+// Function to generate a single log message
+function generateLogMessage() {
+  return {
+    timestamp: faker.date.recent(),
+    level: faker.helpers.arrayElement(["info", "warn", "error"]),
+    body: faker.lorem.paragraph(),
+    // Add more fields as needed
+  };
+}
+
+// Function to generate multiple log messages
+function generateLogMessages(numberOfMessages) {
+  const messages = [];
+
+  for (let i = 0; i < numberOfMessages; i++) {
+    messages.push(generateLogMessage());
+  }
+  return messages;
+}
+
+// Adjust the number of messages as needed
+const logMessages = generateLogMessages(10000);
+
+moon.ingest("clqq3cle50009zg3fplnzqwxs", logMessages).then((res) => {
+  console.log('Done generating!!' ,res);
+}).
+```

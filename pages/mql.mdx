@@ -1,1 +1,72 @@
-## Work in progress...
+# Moonbase Query Language (MQL)
+
+Moonbase ships with a custom query language that allows users to query the API using a language that closely resembles native SQL.
+
+The current iteration of MQL is **v0**.
+
+## Columns
+
+Moonbase allows you to query a set list of standardized columns. The list includes:
+
+1. **<ins>body</ins>** - The log body. Usually the 'text' of the message.
+2. **<ins>level</ins>** - The log level. Logs typically have a log level associated with the strucuted log.
+3. **<ins>environment</ins>** - The environment which the log was produced in. Any arbitrary environment defined by you... production, staging, development, cert2, etc.
+4. **<ins>attribute</ins>** - Any arbitrary value set by the sender. Similiar to 'tags' in Datadog.
+ 
+### v0 (beta)
+
+#### =
+
+```bash
+body = 'Congrats! You published your first log.'
+```
+
+#### !=
+
+```bash
+body != 'Congrats! You published your first log.'
+```
+
+#### in
+
+```bash
+level not in ('info')
+```
+
+#### not In
+
+```bash
+level not in ('error', 'warn)
+```
+
+#### like
+
+```bash
+body like '%congrats%'
+```
+
+#### ilike
+
+```bash
+body ilike '%This is a log%'
+```
+
+#### Attributes
+
+Attributes are any aribtrary value that you want to query. Attributes can be anyting related to your applications.
+
+Example:
+
+```bash
+attributes['service'] = 'moonbase-core' and attributes['leader_ip'] = '65.188.218.18'
+```
+
+You can query attributes just like the standard columns as long as you respect the bracket notation.
+
+#### Complex Queries
+
+You can combine commands into complex queries. Some examples:
+
+```bash
+body like '%congrats%' and level in ('debug', 'info') and attributes['app_name'] = 'storefront';
+```
