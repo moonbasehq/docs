@@ -10,11 +10,37 @@ It's recommended that you follow the onboarding process after signing up.
 
 ![Project](../public/project.png "Moonbase Project")
 
+Your project ID can be found on the projects page.
+
+![Project page](../public/project-page.png "Project Page")
+
 #### 2. Create an API key
 
 ![Tokens](../public/tokens.png "Moonbase tokens")
 
-## Installation
+You can create an API key under your team settings. This is available for both personal accounts and team accounts.
+
+#### 3. Send logs
+
+```bash
+curl -X POST "https://api.moonbasehq.com/v1/logs" \
+  -H "x-moonbase-token: <token>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "data": [
+      {
+        "body": "Congrats! You published your first log.",
+        "level": "info",
+        "attributes": {
+          "onboarding": "true"
+        }
+      }
+    ],
+    "projectId": "<projectId>"
+  }'
+```
+
+## SDK Installation
 
 Install the SDK. For this example, we'll be using the Node SDK.
 
