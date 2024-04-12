@@ -1,8 +1,16 @@
 {
     "index": "Home",
     "quickstart": "Quickstart",
+    "teams": "Teams",
+    "personal-accounts": "Personal Accounts",
+    "logging": {
+        "type": "separator"
+    },
     "logs": "Logging",
     "mql": "MQL",
+    "extra": {
+        "type": "separator"
+    },
     "sdks": "SDKs",
     "api-docs": "API Docs"
 }

@@ -5,3 +5,56 @@ Moonbase provides an optimized logging platform that utilizes ClickHouse and oth
 Moonbase ensures that you're able to query logs as fast as possible.
 
 ![Moonbase logs dashboard](../public/logs.png "Moonbase logs")
+
+## Log Attributes
+
+Query Attributes are similar to Datadog 'tags'. These are useful to filter on arbitrary log data.
+
+An example log with a single attribute could look like:
+
+```json
+{
+    "body": "This is a service log",
+    "level": "info",
+    "attributes": {
+        "service_ip": "65.188.218.18"
+    }
+}
+```
+
+As query Attributes are ingested, Moonbase gathers them and displays them for query building.
+
+Querying an attribute is as simple as:
+
+```sql
+attributes['service_ip'] = "65.188.218.18"
+```
+
+## Log Levels
+
+Out of the box, Moonbase recognizes the following log levels:
+
+1. fatal
+2. error
+3. warn
+4. info
+5. debug
+6. trace
+
+Moonbase dashboard does its best to display these accordingly. For now, If any log levels aren't recognized, the API rejects the value.
+
+![Moonbase log levels](../public/levels.png "Moonbase levels")
+
+## Querying
+
+There are currently 3 different ways to query logs from the dashboard:
+
+1. Basic queries
+2. Query builder
+3. Advanced (MQL)
+
+![Advanced logs](../public/advanced.png "Advanced logs")
+
+Advanced querying allows you to submit MQL queries to the API to be interpreted similiarly to a SQL 'filter'.
+
+![Query builder](../public/builder.png "Query builder")
