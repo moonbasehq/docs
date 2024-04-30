@@ -18,13 +18,15 @@ export default {
   project: {
     link: 'https://github.com/moonbasehq'
   },
+  readMore: 'Read More →',
+  postFooter: null,
   sidebar: {
     defaultMenuCollapseLevel: 1,
   },
   head: (
     <>
       <link rel="icon" href="/favicon-32x32.png" type="image/png" />
-      <meta property="og:title" content="Next.js" />
+      <meta property="og:title" content="Moonbase" />
       <meta property="og:description" content="Observability tools for fast moving teams" />
       <meta property="og:url" content="https://beta.moonbasehq.com" />
       <meta property="og:site_name" content="Moonbase" />
