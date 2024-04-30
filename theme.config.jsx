@@ -26,7 +26,6 @@ export default {
   head: (
     <>
       <link rel="icon" href="/favicon-32x32.png" type="image/png" />
-      <meta property="og:title" content="Moonbase" />
       <meta property="og:description" content="Observability tools for fast moving teams" />
       <meta property="og:url" content="https://beta.moonbasehq.com" />
       <meta property="og:site_name" content="Moonbase" />
@@ -40,6 +39,7 @@ export default {
       <meta property="og:image:alt" content="MoonbaseHQ" />
       <meta property="og:type" content="website" />
       <title>Moonbase</title>
+      <meta property="og:title" content="Moonbase"/>
     </>
   )
 }
