@@ -21,7 +21,7 @@
 | Name | In | Required | Type | Description |
 | ---- | -- | -------- | ---- | ----------- |
 | id | path | true | string | The id of the log |
-| teamId | query | false | string |  |
+| teamId | query | true | string | ID of the team that the log belongs to. |
 
 #### Responses
 
@@ -79,7 +79,7 @@
       "properties": {
         "id": {
           "type": "string",
-          "pattern": "^[cC][^\\s-]{8,}$",
+          "pattern": "^c[^\\s-]{8,}$",
           "description": "The ID of the project associated with the log"
         },
         "name": {
@@ -159,7 +159,7 @@
 | start | query | false | string |  |
 | end | query | false | string |  |
 | cursor | query | false | undefined | Indicates the next offset to start searching from. |
-| teamId | query | false | string |  |
+| teamId | query | true | string | ID of the team that the logs belongs to. |
 | limit | query | false | undefined |  |
 | rel | query | false | string |  |
 
@@ -250,53 +250,6 @@
 **default**:
 - Description: 
 
-## /logs
-
-<br/>
-      <span
-      style={{
-        backgroundColor: 'blue',
-        color: 'white',
-        textAlign: 'center',
-        padding: '4px 8px',
-        borderRadius: '5px',
-        fontWeight: '700',
-      }}
-    >POST</span>
-      
-- Operation ID: logs-create
-- Summary: Ingest logs
-- Description: Ingests log messages for a team.
-
-#### Parameters
-
-| Name | In | Required | Type | Description |
-| ---- | -- | -------- | ---- | ----------- |
-
-#### Responses
-
-**200**:
-- Description: Successful response
-##### Content
-
-**application/json**:
-```json
-{
-  "type": "object",
-  "properties": {
-    "success": {
-      "type": "boolean"
-    }
-  },
-  "required": [
-    "success"
-  ],
-  "additionalProperties": false
-}
-```
-**default**:
-- Description: 
-
 ## /logs/count
 
 <br/>
@@ -319,7 +272,7 @@
 
 | Name | In | Required | Type | Description |
 | ---- | -- | -------- | ---- | ----------- |
-| teamId | query | false | string |  |
+| teamId | query | true | string | ID of the team that the logs belongs to. |
 | metric | query | true | string |  |
 
 #### Responses
@@ -513,7 +466,7 @@
 **default**:
 - Description: 
 
-## /logs/attributes
+## /logs/suggestions
 
 <br/>
       <span
@@ -527,14 +480,15 @@
       }}
     >GET</span>
       
-- Operation ID: logs-attributes
-- Summary: Active log attributes
-- Description: Gets all active log attributes across the team. Used for suggestions in the query builder..
+- Operation ID: logs-suggestions
+- Summary: Active log suggestions
+- Description: Gets active log suggestion paths across the team. Used for suggestions in the query builder.
 
 #### Parameters
 
 | Name | In | Required | Type | Description |
 | ---- | -- | -------- | ---- | ----------- |
+| term | query | true | string | Gets a list of columns that match a search term. Limited to 10. |
 | teamId | query | false | string |  |
 
 #### Responses
@@ -548,23 +502,9 @@
 {
   "type": "array",
   "items": {
-    "type": "object",
-    "properties": {
-      "key": {
-        "type": "string",
-        "description": "The key of the attribute within Moonbase."
-      },
-      "occurences": {
-        "type": "string",
-        "description": "The count of occurences of the attribute key"
-      }
-    },
-    "required": [
-      "key",
-      "occurences"
-    ],
-    "additionalProperties": false
-  }
+    "type": "string"
+  },
+  "description": "The list of suggestions."
 }
 ```
 **default**:

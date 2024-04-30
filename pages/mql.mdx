@@ -1,72 +1,137 @@
-# Moonbase Query Language (MQL)
+# Moonbase Query Language
 
 Moonbase ships with a custom query language that allows users to query the API using a language that closely resembles native SQL.
 
 The current iteration of MQL is **v0**.
 
-## Columns
+## Schema-less
 
-Moonbase allows you to query a set list of standardized columns. The list includes:
+On log ingestion, Moonbase indexes each individual field, along with the data types. This allows Moonbase to ingest any JSON-formatted input
 
-1. **<ins>body</ins>** - The log body. Usually the 'text' of the message.
-2. **<ins>level</ins>** - The log level. Logs typically have a log level associated with the strucuted log.
-3. **<ins>environment</ins>** - The environment which the log was produced in. Any arbitrary environment defined by you... production, staging, development, cert2, etc.
-4. **<ins>attribute</ins>** - Any arbitrary value set by the sender. Similiar to 'tags' in Datadog.
+For example, imagine you send Moonbase a payload that looks like:
+
+```json
+{
+  "date": 1714005647.6969,
+  "source": "stdout",
+  "container_id": "b87fc7725f734fd6b5a56e1cdf990174-3165338177",
+  "container_name": "API-container-definition",
+  "ecs_cluster": "Internal-production",
+  "meta": {
+    "time": "2024-04-28T17:35:37.9848259Z",
+    "level": "INFO",
+    "msg": "GET /v1/environments/1C9y47b5rLS32mcVsG9V5W/components",
+    "service": "http",
+    "http": {
+      "status": 200,
+      "duration": 4778294,
+      "size": 29,
+      "ip": "68.8.141.151"
+    }
+  },
+  "ecs_task_arn": "arn:aws:ecs:us-west-2:398234872511:task/Internal-production/b87fc7725f734fd6b5a56e1cdf990174",
+  "ecs_task_definition": "API-production:56"
+}
+```
+
+Moonbase will index the above fields so that you can search `meta.http.status = 200` almost instantly.
  
-### v0 (beta)
+### Lang v0
 
 #### =
 
-```bash
-body = 'Congrats! You published your first log.'
+Exact match on a particular field:
+
+```sql
+meta.http.status = 200
 ```
 
 #### !=
 
-```bash
-body != 'Congrats! You published your first log.'
-```
+Find any log that isn't of status 200:
 
-#### in
-
-```bash
-level not in ('info')
-```
-
-#### not In
-
-```bash
-level not in ('error', 'warn)
+```sql
+meta.http.status != 200
 ```
 
 #### like
 
-```bash
-body like '%congrats%'
+Wildcard match an IP:
+
+```sql
+meta.http.ip like '68.8.%':
 ```
 
 #### ilike
 
-```bash
-body ilike '%This is a log%'
+Case insensitive.
+
+```sql
+meta.level ilike '%inf%':
 ```
 
-#### Attributes
+#### Greater Than
 
-Attributes are any aribtrary value that you want to query. Attributes can be anyting related to your applications.
+Useful for finding logs with minimum status levels.
 
-Example:
+```sql
+meta.http.status > 200
+```
 
-```bash
-attributes['service'] = 'moonbase-core' and attributes['leader_ip'] = '65.188.218.18'
+#### Greater Than or Equal To
+
+Find all logs that are 400 or above.
+
+```sql
+meta.http.status >= 400
+```
+
+#### Less than
+
+Find any log with a healthy status 
+
+```sql
+meta.http.status < 400
+```
+
+#### Less Than or Equal To
+
+Find some sizes:
+
+```sql
+meta.http.size <= 50
+```
+
+#### More Examples
+
+You can search on your own timestamps:
+
+```sql
+date < 1714509064.278388
 ```
 
 You can query attributes just like the standard columns as long as you respect the bracket notation.
 
 #### Complex Queries
 
-You can combine commands into complex queries. Some examples:
+##### And:
 
-```bash
-body like '%congrats%' and level in ('debug', 'info') and attributes['app_name'] = 'storefront'
+You'll likely want to narrow down with mulitple clauses
+
+```sql
+log.http.status = 200 and log.msg = 'POST /sync'
+```
+
+##### Or:
+
+Maybe you want to look for two specific error codes
+
+```sql
+log.http.status = 413 or log.http.status = 429
+```
+
+#### Grouping Queries
+
+```sql
+(log.http.status = 413 and log.http.status = 429) or (log.http.status = 200 and log.msg = 'POST /sync')
 ```

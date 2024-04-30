@@ -1,3 +1,51 @@
+## /projects/:id/logs
+
+<br/>
+      <span
+      style={{
+        backgroundColor: 'blue',
+        color: 'white',
+        textAlign: 'center',
+        padding: '4px 8px',
+        borderRadius: '5px',
+        fontWeight: '700',
+      }}
+    >POST</span>
+      
+- Operation ID: projects-logs
+- Summary: Push logs for a project
+- Description: Pushes logs for a specific project domain
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| ---- | -- | -------- | ---- | ----------- |
+| id | path | true | string | ID of the project. |
+
+#### Responses
+
+**200**:
+- Description: Successful response
+##### Content
+
+**application/json**:
+```json
+{
+  "type": "object",
+  "properties": {
+    "success": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "success"
+  ],
+  "additionalProperties": false
+}
+```
+**default**:
+- Description: 
+
 ## /:teamId/projects/slug/:slug
 
 <br/>
@@ -36,7 +84,7 @@
   "properties": {
     "id": {
       "type": "string",
-      "pattern": "^[cC][^\\s-]{8,}$"
+      "pattern": "^c[^\\s-]{8,}$"
     },
     "name": {
       "type": "string",
@@ -46,7 +94,7 @@
     },
     "teamId": {
       "type": "string",
-      "pattern": "^[cC][^\\s-]{8,}$"
+      "pattern": "^c[^\\s-]{8,}$"
     },
     "slug": {
       "type": "string",
@@ -118,7 +166,7 @@
   "properties": {
     "id": {
       "type": "string",
-      "pattern": "^[cC][^\\s-]{8,}$"
+      "pattern": "^c[^\\s-]{8,}$"
     },
     "name": {
       "type": "string",
@@ -128,7 +176,7 @@
     },
     "teamId": {
       "type": "string",
-      "pattern": "^[cC][^\\s-]{8,}$"
+      "pattern": "^c[^\\s-]{8,}$"
     },
     "slug": {
       "type": "string",
@@ -200,7 +248,7 @@
   "properties": {
     "id": {
       "type": "string",
-      "pattern": "^[cC][^\\s-]{8,}$"
+      "pattern": "^c[^\\s-]{8,}$"
     },
     "name": {
       "type": "string",
@@ -210,7 +258,7 @@
     },
     "teamId": {
       "type": "string",
-      "pattern": "^[cC][^\\s-]{8,}$"
+      "pattern": "^c[^\\s-]{8,}$"
     },
     "slug": {
       "type": "string",
@@ -319,7 +367,7 @@
   "properties": {
     "id": {
       "type": "string",
-      "pattern": "^[cC][^\\s-]{8,}$"
+      "pattern": "^c[^\\s-]{8,}$"
     },
     "name": {
       "type": "string",
@@ -329,7 +377,7 @@
     },
     "teamId": {
       "type": "string",
-      "pattern": "^[cC][^\\s-]{8,}$"
+      "pattern": "^c[^\\s-]{8,}$"
     },
     "slug": {
       "type": "string",
@@ -407,7 +455,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "pattern": "^[cC][^\\s-]{8,}$"
+            "pattern": "^c[^\\s-]{8,}$"
           },
           "name": {
             "type": "string",
@@ -417,7 +465,7 @@
           },
           "teamId": {
             "type": "string",
-            "pattern": "^[cC][^\\s-]{8,}$"
+            "pattern": "^c[^\\s-]{8,}$"
           },
           "slug": {
             "type": "string",

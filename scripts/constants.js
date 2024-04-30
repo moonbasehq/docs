@@ -6,7 +6,7 @@ const ACTION_COLOR_MAPPING = {
   POST: 'blue',
 };
 
-const OPEN_API_SPEC_ENDPOINT = 'http://api.moonbase.hqdev:8085/v1/openapi.json' 
+const OPEN_API_SPEC_ENDPOINT = 'https://api.moonbasehq.com/v1/openapi.json' 
 
 module.exports = {
   ACTION_COLOR_MAPPING,

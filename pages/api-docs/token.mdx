@@ -34,20 +34,34 @@
   "properties": {
     "id": {
       "type": "string",
-      "pattern": "^[cC][^\\s-]{8,}$"
+      "pattern": "^c[^\\s-]{8,}$"
     },
     "name": {
       "type": "string",
       "minLength": 1
     },
     "expiresAt": {
-      "type": "string",
-      "format": "date-time",
+      "anyOf": [
+        {
+          "not": {}
+        },
+        {
+          "type": "string",
+          "format": "date-time"
+        }
+      ],
       "nullable": true
     },
     "lastUsedAt": {
-      "type": "string",
-      "format": "date-time",
+      "anyOf": [
+        {
+          "not": {}
+        },
+        {
+          "type": "string",
+          "format": "date-time"
+        }
+      ],
       "nullable": true
     },
     "createdAt": {
@@ -55,8 +69,15 @@
       "format": "date-time"
     },
     "deletedAt": {
-      "type": "string",
-      "format": "date-time",
+      "anyOf": [
+        {
+          "not": {}
+        },
+        {
+          "type": "string",
+          "format": "date-time"
+        }
+      ],
       "nullable": true
     },
     "token": {

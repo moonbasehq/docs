@@ -23,20 +23,12 @@ You can create an API key under your team settings. This is available for both p
 #### 3. Send logs
 
 ```bash
-curl -X POST "https://api.moonbasehq.com/v1/logs" \
+curl -X POST "https://api.moonbasehq.com/v1/projects/<projectId>/logs?levelKey=level" \
   -H "x-moonbase-token: <token>" \
   -H "Content-Type: application/json" \
   -d '{
-    "data": [
-      {
-        "body": "Congrats! You published your first log.",
-        "level": "info",
-        "attributes": {
-          "onboarding": "true"
-        }
-      }
-    ],
-    "projectId": "<projectId>"
+      "body": "Congrats! You published your first log.",
+      "level": "info"
   }'
 ```
 
@@ -52,6 +44,7 @@ Configure the SDK
 
 ```js
 const moon = new Moonbase({
+  // this is a fake key, obviously
   apiKey: "moonbase_72UyVRAPaKRhkbt1uEoa34NKhf2EsiXQqeEOjln36JU=",
 });
 ```
@@ -60,15 +53,11 @@ Ingest logs for a project
 
 ```js
 import { Moonbase } from "@moonbasehq/js";
-import { faker } from "@faker-js/faker";
 
 const messages = [
   {
-    body: "This is your log",
-    level: "info",
-    attributes: {
-      some: "service"
-    }
+    "body": "Congrats! You published your first log.",
+    "level": "info",
   }
 ]
 

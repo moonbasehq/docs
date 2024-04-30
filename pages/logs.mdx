@@ -2,32 +2,42 @@
 
 Moonbase provides an optimized logging platform that utilizes ClickHouse and other various technologies under the hood.
 
-Moonbase ensures that you're able to query logs as fast as possible.
+Moonbase attempts to index fields as fast as possible so that you're able to query logs near instantly.
 
 ![Moonbase logs dashboard](../public/logs.png "Moonbase logs")
 
-## Log Attributes
+## Log Schema
 
-Query Attributes are similar to Datadog 'tags'. These are useful to filter on arbitrary log data.
+Logs are crawled and analyzed at ingestion time. Moonbase indexes every field in the payload so that you can query nested values efficiently.
 
-An example log with a single attribute could look like:
+An example log with a could look like:
 
 ```json
 {
-    "body": "This is a service log",
+  "date": 1714005647.6969,
+  "meta": {
+    "time": "2024-04-28T17:35:37.9848259Z",
     "level": "info",
-    "attributes": {
-        "service_ip": "65.188.218.18"
+    "msg": "GET /v1/environments/1C9y47b5rLS32mcVsG9V5W/components",
+    "service": "http",
+    "http": {
+      "status": 200,
+      "duration": 4778294,
+      "size": 30,
+      "ip": "68.8.141.151",
+      "something": "inhere",
+      "abuse": true
     }
+  }
 }
 ```
 
-As query Attributes are ingested, Moonbase gathers them and displays them for query building.
+As payloads are ingested, Moonbase indexes the fields and data types for optimal querying.
 
-Querying an attribute is as simple as:
+Querying an field is as simple as:
 
 ```sql
-attributes['service_ip'] = "65.188.218.18"
+meta.http.status > 200
 ```
 
 ## Log Levels
@@ -47,10 +57,9 @@ Moonbase dashboard does its best to display these accordingly. For now, If any l
 
 ## Querying
 
-There are currently 3 different ways to query logs from the dashboard:
+There are currently 2 different ways to query logs from the dashboard:
 
-1. Basic queries
-2. Query builder
+1. Query Builder (for basic queries)
 3. Advanced (MQL)
 
 ![Advanced logs](../public/advanced.png "Advanced logs")
@@ -58,3 +67,7 @@ There are currently 3 different ways to query logs from the dashboard:
 Advanced querying allows you to submit MQL queries to the API to be interpreted similiarly to a SQL 'filter'.
 
 ![Query builder](../public/builder.png "Query builder")
+
+As you type a field in the builder, Moonbase gives you a set of recommended indexed fields to query on.
+
+You still have the option to query any arbitrary fields if moonbase does not immediately recognize the field you type. 

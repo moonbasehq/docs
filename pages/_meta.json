@@ -12,5 +12,6 @@
         "type": "separator"
     },
     "sdks": "SDKs",
+    "log-forwarding": "Log Forwarding",
     "api-docs": "API Docs"
 }

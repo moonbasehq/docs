@@ -1,0 +1,78 @@
+## Fluentbit
+
+[Fluent Bit](https://docs.fluentbit.io/manual) is a Fast and Lightweight Telemetry Agent for Logs, Metrics, and Traces for Linux, macOS, Windows, and BSD family operating systems.
+
+Its very simple to send logs to Moonbase using Fluent Bit
+
+### Fluent Bit config for Moonbase
+
+```
+[SERVICE]
+    Log_Level info
+
+[INPUT]
+    Name forward
+    Listen 0.0.0.0
+    Port 24224
+
+[OUTPUT]
+    Name http
+    Match *
+    Host api.moonbasehq.com
+    Port 443
+    URI /v1/projects/clvd9713n0001wo0s0142f6wa/logs?parse=log&levelKey=log.level
+    Format json
+    Retry_limit 2
+    tls On
+    tls.verify On
+    Header x-moonbase-token "moonbase_..."
+```
+
+#### Options
+
+Moonbase allows you to pass a list of query parameters to the ingestion endpoint so that you can leverage native Fluent Bit features without having to write custom containers.
+
+* **Parse** - comma-delimited list of paths in the log objects that Moonbase should try to parse into JSON. Useful if Fluent Bit is stringifying objects that you want indexed. Example: `?parse=foo.bar,baz.ban`.
+* **levelKey** - Tells Moonbase which key (potentially nested) in your logs' level. Useful if your level is nested in inside of the object. Example: `?levelKey=log.level`
+
+*note* You can use both `parse` and `levelKey` options together. Moonbase will parse the paths supplied before looking at `levelKey`.
+
+### ECS + FireLens
+
+If you're an ECS user and you want to forward logs to Moonbase via [FireLens](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_firelens.html), you can use a similar config to below:
+
+```json
+"LogConfiguration": {
+  "LogDriver": "awsfirelens",
+    "Options": {
+    "Format": "json",
+    "Host": "api.moonbasehq.com",
+    "Match": "*",
+    "Name": "http",
+    "Port": "443",
+    "Retry_Limit": "2",
+    "URI": "/v1/projects/clvd9713n0001wo0s0142f6wa/logs?parse=log&levelKey=log.level",
+    "tls": "On",
+    "tls.verify": "On"
+  },
+  "SecretOptions": [
+    {
+      "Name": "header",
+      "ValueFrom": {
+      "Fn::Join": [
+        "",
+          [
+          "arn:",
+          {
+            "Ref": "AWS::Partition"
+          },
+          ":ssm:us-west-2:398234872511:parameter/production/variables/MOONBASE_API_KEY"
+          ]
+        ]
+      }
+    }
+  ]
+}
+```
+
+It's recommended to store Moonbase Token's in SSM and inject them in as Fluent Bit Headers.
