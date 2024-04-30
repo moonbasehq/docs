@@ -24,6 +24,19 @@ export default {
   head: (
     <>
       <link rel="icon" href="/favicon-32x32.png" type="image/png" />
+      <meta property="og:title" content="Next.js" />
+      <meta property="og:description" content="Observability tools for fast moving teams" />
+      <meta property="og:url" content="https://beta.moonbasehq.com" />
+      <meta property="og:site_name" content="Moonbase" />
+      <meta property="og:locale" content="en_US" />
+      <meta property="og:image:url" content="https://d1g8kkebe2h8ce.cloudfront.net/ThumbnailBlack.png" />
+      <meta property="og:image:width" content="800" />
+      <meta property="og:image:height" content="600" />
+      <meta property="og:image:url" content="https://d1g8kkebe2h8ce.cloudfront.net/ThumbnailBlack.png" />
+      <meta property="og:image:width" content="1800" />
+      <meta property="og:image:height" content="1600" />
+      <meta property="og:image:alt" content="MoonbaseHQ" />
+      <meta property="og:type" content="website" />
     </>
   )
 }
