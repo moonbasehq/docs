@@ -39,6 +39,7 @@ export default {
       <meta property="og:image:height" content="1600" />
       <meta property="og:image:alt" content="MoonbaseHQ" />
       <meta property="og:type" content="website" />
+      <title>Moonbase</title>
     </>
   )
 }
