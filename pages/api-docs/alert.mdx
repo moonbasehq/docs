@@ -1,0 +1,1741 @@
+## /projects/:id/alerts/stats/visualization
+
+<br/>
+      <span
+      style={{
+        backgroundColor: 'green',
+        color: 'white',
+        textAlign: 'center',
+        padding: '4px 8px',
+        borderRadius: '5px',
+        fontWeight: '700',
+      }}
+    >GET</span>
+      
+- Operation ID: alerts-visualize
+- Summary: Retrieves a visualization for an alert.
+- Description: Visualize the data for an alert.
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| ---- | -- | -------- | ---- | ----------- |
+| id | path | true | string | ID of the project that the alert belongs to. |
+| query | query | true | string | A valid MQL query for filtering logs. |
+| interval | query | false | string |  |
+
+#### Responses
+
+**200**:
+- Description: Successful response
+##### Content
+
+**application/json**:
+```json
+{
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "count": {
+        "type": "number"
+      },
+      "date": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "count",
+      "date"
+    ],
+    "additionalProperties": false
+  }
+}
+```
+**default**:
+- Description: 
+
+## /projects/:id/alerts/:alertId
+
+<br/>
+      <span
+      style={{
+        backgroundColor: 'green',
+        color: 'white',
+        textAlign: 'center',
+        padding: '4px 8px',
+        borderRadius: '5px',
+        fontWeight: '700',
+      }}
+    >GET</span>
+      
+- Operation ID: alerts-getById
+- Summary: Get project
+- Description: Gets a alert by a unique ID.
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| ---- | -- | -------- | ---- | ----------- |
+| id | path | true | string | ID of the project that the alert belongs to. |
+| alertId | path | true | string | ID of the alert being fetched. |
+| showGraph | query | false | boolean | Returns graph data that represents the last hour state of query data |
+
+#### Responses
+
+**200**:
+- Description: Successful response
+##### Content
+
+**application/json**:
+```json
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^c[^\\s-]{8,}$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "nullable": true
+    },
+    "query": {
+      "type": "string",
+      "minLength": 1
+    },
+    "projectId": {
+      "type": "string",
+      "pattern": "^c[^\\s-]{8,}$"
+    },
+    "userId": {
+      "type": "string",
+      "pattern": "^c[^\\s-]{8,}$"
+    },
+    "lastNotifiedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "deletedAt": {
+      "type": "string",
+      "format": "date-time",
+      "nullable": true
+    },
+    "lang_version": {
+      "type": "string",
+      "default": "v0"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "log"
+      ]
+    },
+    "buffer": {
+      "type": "string",
+      "enum": [
+        "min_15",
+        "min_30",
+        "hr_1",
+        "hr_3",
+        "hr_6"
+      ]
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "normal",
+        "warning",
+        "alerting"
+      ]
+    },
+    "silenced": {
+      "type": "boolean"
+    },
+    "enabled": {
+      "type": "boolean"
+    },
+    "alertTriggers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^c[^\\s-]{8,}$"
+          },
+          "alertId": {
+            "type": "string",
+            "pattern": "^c[^\\s-]{8,}$"
+          },
+          "error": {
+            "type": "string",
+            "nullable": true
+          },
+          "state": {
+            "type": "string",
+            "minLength": 1
+          },
+          "acknowlegedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "value": {
+            "type": "number"
+          },
+          "acknowlegedBy": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^c[^\\s-]{8,}$"
+              },
+              "email": {
+                "type": "string",
+                "format": "email"
+              }
+            },
+            "required": [
+              "id",
+              "email"
+            ],
+            "additionalProperties": false
+          },
+          "alertState": {
+            "type": "string",
+            "enum": [
+              "normal",
+              "warning",
+              "alerting"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "alertId",
+          "error",
+          "state",
+          "value",
+          "alertState",
+          "createdAt"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "alertStrategies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "comparator": {
+            "type": "string",
+            "enum": [
+              "gt",
+              "eq",
+              "lt",
+              "lte",
+              "gte"
+            ]
+          },
+          "value": {
+            "type": "number"
+          },
+          "pendingPeriod": {
+            "type": "string",
+            "enum": [
+              "none",
+              "min_1",
+              "min_5",
+              "min_10",
+              "min_15",
+              "min_30",
+              "hr_1",
+              "hr_6"
+            ]
+          },
+          "interval": {
+            "type": "string",
+            "enum": [
+              "sec_30",
+              "min_1",
+              "min_2",
+              "min_5",
+              "min_10",
+              "min_30",
+              "hr_1",
+              "hr_3",
+              "hr_6",
+              "hr_12"
+            ]
+          }
+        },
+        "required": [
+          "comparator",
+          "value",
+          "pendingPeriod",
+          "interval"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "alertIntegrations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^c[^\\s-]{8,}$"
+          },
+          "alertId": {
+            "type": "string",
+            "pattern": "^c[^\\s-]{8,}$"
+          },
+          "integration": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^c[^\\s-]{8,}$"
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "enabled": {
+                "type": "boolean"
+              },
+              "config": {
+                "type": "object",
+                "additionalProperties": {}
+              },
+              "integration": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^c[^\\s-]{8,}$"
+                  },
+                  "name": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "type": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "id",
+                  "name",
+                  "type"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "id",
+              "createdAt",
+              "enabled",
+              "config",
+              "integration"
+            ],
+            "additionalProperties": false
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "alertId",
+          "integration",
+          "createdAt"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "project": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^c[^\\s-]{8,}$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120,
+          "nullable": true
+        },
+        "teamId": {
+          "type": "string",
+          "pattern": "^c[^\\s-]{8,}$"
+        },
+        "slug": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "nullable": true
+        },
+        "environment": {
+          "type": "string",
+          "nullable": true
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "teamId",
+        "slug",
+        "description",
+        "environment",
+        "createdAt"
+      ],
+      "additionalProperties": false
+    },
+    "graph": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "number"
+          },
+          "date": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "count",
+          "date"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "query",
+    "projectId",
+    "userId",
+    "lastNotifiedAt",
+    "createdAt",
+    "deletedAt",
+    "type",
+    "buffer",
+    "state",
+    "silenced",
+    "enabled",
+    "alertTriggers",
+    "alertStrategies",
+    "alertIntegrations",
+    "project",
+    "graph"
+  ],
+  "additionalProperties": false
+}
+```
+**default**:
+- Description: 
+
+## /projects/:id/alerts/:alertId
+
+<br/>
+      <span
+      style={{
+        backgroundColor: 'orange',
+        color: 'white',
+        textAlign: 'center',
+        padding: '4px 8px',
+        borderRadius: '5px',
+        fontWeight: '700',
+      }}
+    >PATCH</span>
+      
+- Operation ID: alerts-update
+- Summary: Update Alert
+- Description: Updates an alert by ID.
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| ---- | -- | -------- | ---- | ----------- |
+| id | path | true | string | The ID of the project that owns the alert. |
+| alertId | path | true | string | ID of the alert that is being deleted |
+
+#### Responses
+
+**200**:
+- Description: Successful response
+##### Content
+
+**application/json**:
+```json
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^c[^\\s-]{8,}$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "nullable": true
+    },
+    "query": {
+      "type": "string",
+      "minLength": 1
+    },
+    "projectId": {
+      "type": "string",
+      "pattern": "^c[^\\s-]{8,}$"
+    },
+    "userId": {
+      "type": "string",
+      "pattern": "^c[^\\s-]{8,}$"
+    },
+    "lastNotifiedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "deletedAt": {
+      "type": "string",
+      "format": "date-time",
+      "nullable": true
+    },
+    "lang_version": {
+      "type": "string",
+      "default": "v0"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "log"
+      ]
+    },
+    "buffer": {
+      "type": "string",
+      "enum": [
+        "min_15",
+        "min_30",
+        "hr_1",
+        "hr_3",
+        "hr_6"
+      ]
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "normal",
+        "warning",
+        "alerting"
+      ]
+    },
+    "silenced": {
+      "type": "boolean"
+    },
+    "enabled": {
+      "type": "boolean"
+    },
+    "alertTriggers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^c[^\\s-]{8,}$"
+          },
+          "alertId": {
+            "type": "string",
+            "pattern": "^c[^\\s-]{8,}$"
+          },
+          "error": {
+            "type": "string",
+            "nullable": true
+          },
+          "state": {
+            "type": "string",
+            "minLength": 1
+          },
+          "acknowlegedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "value": {
+            "type": "number"
+          },
+          "acknowlegedBy": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^c[^\\s-]{8,}$"
+              },
+              "email": {
+                "type": "string",
+                "format": "email"
+              }
+            },
+            "required": [
+              "id",
+              "email"
+            ],
+            "additionalProperties": false
+          },
+          "alertState": {
+            "type": "string",
+            "enum": [
+              "normal",
+              "warning",
+              "alerting"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "alertId",
+          "error",
+          "state",
+          "value",
+          "alertState",
+          "createdAt"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "alertStrategies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "comparator": {
+            "type": "string",
+            "enum": [
+              "gt",
+              "eq",
+              "lt",
+              "lte",
+              "gte"
+            ]
+          },
+          "value": {
+            "type": "number"
+          },
+          "pendingPeriod": {
+            "type": "string",
+            "enum": [
+              "none",
+              "min_1",
+              "min_5",
+              "min_10",
+              "min_15",
+              "min_30",
+              "hr_1",
+              "hr_6"
+            ]
+          },
+          "interval": {
+            "type": "string",
+            "enum": [
+              "sec_30",
+              "min_1",
+              "min_2",
+              "min_5",
+              "min_10",
+              "min_30",
+              "hr_1",
+              "hr_3",
+              "hr_6",
+              "hr_12"
+            ]
+          }
+        },
+        "required": [
+          "comparator",
+          "value",
+          "pendingPeriod",
+          "interval"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "alertIntegrations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^c[^\\s-]{8,}$"
+          },
+          "alertId": {
+            "type": "string",
+            "pattern": "^c[^\\s-]{8,}$"
+          },
+          "integration": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^c[^\\s-]{8,}$"
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "enabled": {
+                "type": "boolean"
+              },
+              "config": {
+                "type": "object",
+                "additionalProperties": {}
+              },
+              "integration": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^c[^\\s-]{8,}$"
+                  },
+                  "name": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "type": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "id",
+                  "name",
+                  "type"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "id",
+              "createdAt",
+              "enabled",
+              "config",
+              "integration"
+            ],
+            "additionalProperties": false
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "alertId",
+          "integration",
+          "createdAt"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "project": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^c[^\\s-]{8,}$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120,
+          "nullable": true
+        },
+        "teamId": {
+          "type": "string",
+          "pattern": "^c[^\\s-]{8,}$"
+        },
+        "slug": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "nullable": true
+        },
+        "environment": {
+          "type": "string",
+          "nullable": true
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "teamId",
+        "slug",
+        "description",
+        "environment",
+        "createdAt"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "query",
+    "projectId",
+    "userId",
+    "lastNotifiedAt",
+    "createdAt",
+    "deletedAt",
+    "type",
+    "buffer",
+    "state",
+    "silenced",
+    "enabled",
+    "alertTriggers",
+    "alertStrategies",
+    "alertIntegrations",
+    "project"
+  ],
+  "additionalProperties": false
+}
+```
+**default**:
+- Description: 
+
+## /projects/:id/alerts/:alertId
+
+<br/>
+      <span
+      style={{
+        backgroundColor: 'red',
+        color: 'white',
+        textAlign: 'center',
+        padding: '4px 8px',
+        borderRadius: '5px',
+        fontWeight: '700',
+      }}
+    >DELETE</span>
+      
+- Operation ID: alerts-delete
+- Summary: Delete alert
+- Description: Deletes an alert by ID.
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| ---- | -- | -------- | ---- | ----------- |
+| id | path | true | string | ID of the project that the alert belongs to. |
+| alertId | path | true | string | ID of the alert that is being deleted |
+
+#### Responses
+
+**200**:
+- Description: Successful response
+##### Content
+
+**application/json**:
+```json
+{}
+```
+**default**:
+- Description: 
+
+## /projects/:id/alerts
+
+<br/>
+      <span
+      style={{
+        backgroundColor: 'blue',
+        color: 'white',
+        textAlign: 'center',
+        padding: '4px 8px',
+        borderRadius: '5px',
+        fontWeight: '700',
+      }}
+    >POST</span>
+      
+- Operation ID: alerts-create
+- Summary: Create alert
+- Description: Create an alert for a team.
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| ---- | -- | -------- | ---- | ----------- |
+| id | path | true | string | The ID of the project that owns the alert. |
+
+#### Responses
+
+**200**:
+- Description: Successful response
+##### Content
+
+**application/json**:
+```json
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^c[^\\s-]{8,}$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "nullable": true
+    },
+    "query": {
+      "type": "string",
+      "minLength": 1
+    },
+    "projectId": {
+      "type": "string",
+      "pattern": "^c[^\\s-]{8,}$"
+    },
+    "userId": {
+      "type": "string",
+      "pattern": "^c[^\\s-]{8,}$"
+    },
+    "lastNotifiedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "deletedAt": {
+      "type": "string",
+      "format": "date-time",
+      "nullable": true
+    },
+    "lang_version": {
+      "type": "string",
+      "default": "v0"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "log"
+      ]
+    },
+    "buffer": {
+      "type": "string",
+      "enum": [
+        "min_15",
+        "min_30",
+        "hr_1",
+        "hr_3",
+        "hr_6"
+      ]
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "normal",
+        "warning",
+        "alerting"
+      ]
+    },
+    "silenced": {
+      "type": "boolean"
+    },
+    "enabled": {
+      "type": "boolean"
+    },
+    "alertTriggers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^c[^\\s-]{8,}$"
+          },
+          "alertId": {
+            "type": "string",
+            "pattern": "^c[^\\s-]{8,}$"
+          },
+          "error": {
+            "type": "string",
+            "nullable": true
+          },
+          "state": {
+            "type": "string",
+            "minLength": 1
+          },
+          "acknowlegedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "value": {
+            "type": "number"
+          },
+          "acknowlegedBy": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^c[^\\s-]{8,}$"
+              },
+              "email": {
+                "type": "string",
+                "format": "email"
+              }
+            },
+            "required": [
+              "id",
+              "email"
+            ],
+            "additionalProperties": false
+          },
+          "alertState": {
+            "type": "string",
+            "enum": [
+              "normal",
+              "warning",
+              "alerting"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "alertId",
+          "error",
+          "state",
+          "value",
+          "alertState",
+          "createdAt"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "alertStrategies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "comparator": {
+            "type": "string",
+            "enum": [
+              "gt",
+              "eq",
+              "lt",
+              "lte",
+              "gte"
+            ]
+          },
+          "value": {
+            "type": "number"
+          },
+          "pendingPeriod": {
+            "type": "string",
+            "enum": [
+              "none",
+              "min_1",
+              "min_5",
+              "min_10",
+              "min_15",
+              "min_30",
+              "hr_1",
+              "hr_6"
+            ]
+          },
+          "interval": {
+            "type": "string",
+            "enum": [
+              "sec_30",
+              "min_1",
+              "min_2",
+              "min_5",
+              "min_10",
+              "min_30",
+              "hr_1",
+              "hr_3",
+              "hr_6",
+              "hr_12"
+            ]
+          }
+        },
+        "required": [
+          "comparator",
+          "value",
+          "pendingPeriod",
+          "interval"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "alertIntegrations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^c[^\\s-]{8,}$"
+          },
+          "alertId": {
+            "type": "string",
+            "pattern": "^c[^\\s-]{8,}$"
+          },
+          "integration": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^c[^\\s-]{8,}$"
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "enabled": {
+                "type": "boolean"
+              },
+              "config": {
+                "type": "object",
+                "additionalProperties": {}
+              },
+              "integration": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^c[^\\s-]{8,}$"
+                  },
+                  "name": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "type": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "id",
+                  "name",
+                  "type"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "id",
+              "createdAt",
+              "enabled",
+              "config",
+              "integration"
+            ],
+            "additionalProperties": false
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "alertId",
+          "integration",
+          "createdAt"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "project": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^c[^\\s-]{8,}$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120,
+          "nullable": true
+        },
+        "teamId": {
+          "type": "string",
+          "pattern": "^c[^\\s-]{8,}$"
+        },
+        "slug": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "nullable": true
+        },
+        "environment": {
+          "type": "string",
+          "nullable": true
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "teamId",
+        "slug",
+        "description",
+        "environment",
+        "createdAt"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "query",
+    "projectId",
+    "userId",
+    "lastNotifiedAt",
+    "createdAt",
+    "deletedAt",
+    "type",
+    "buffer",
+    "state",
+    "silenced",
+    "enabled",
+    "alertTriggers",
+    "alertStrategies",
+    "alertIntegrations",
+    "project"
+  ],
+  "additionalProperties": false
+}
+```
+**default**:
+- Description: 
+
+## /projects/:id/alerts
+
+<br/>
+      <span
+      style={{
+        backgroundColor: 'green',
+        color: 'white',
+        textAlign: 'center',
+        padding: '4px 8px',
+        borderRadius: '5px',
+        fontWeight: '700',
+      }}
+    >GET</span>
+      
+- Operation ID: alerts-list
+- Summary: List Alerts
+- Description: Lists all alerts within a project.
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| ---- | -- | -------- | ---- | ----------- |
+| id | path | true | string | ID of the project that the alerts belongs to. |
+| take | query | false | undefined |  |
+| after | query | false | string |  |
+| state | query | false | string |  |
+
+#### Responses
+
+**200**:
+- Description: Successful response
+##### Content
+
+**application/json**:
+```json
+{
+  "type": "object",
+  "properties": {
+    "nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^c[^\\s-]{8,}$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 50,
+            "nullable": true
+          },
+          "query": {
+            "type": "string",
+            "minLength": 1
+          },
+          "projectId": {
+            "type": "string",
+            "pattern": "^c[^\\s-]{8,}$"
+          },
+          "userId": {
+            "type": "string",
+            "pattern": "^c[^\\s-]{8,}$"
+          },
+          "lastNotifiedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "deletedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "lang_version": {
+            "type": "string",
+            "default": "v0"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "log"
+            ]
+          },
+          "buffer": {
+            "type": "string",
+            "enum": [
+              "min_15",
+              "min_30",
+              "hr_1",
+              "hr_3",
+              "hr_6"
+            ]
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "normal",
+              "warning",
+              "alerting"
+            ]
+          },
+          "silenced": {
+            "type": "boolean"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "alertTriggers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "pattern": "^c[^\\s-]{8,}$"
+                },
+                "alertId": {
+                  "type": "string",
+                  "pattern": "^c[^\\s-]{8,}$"
+                },
+                "error": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "state": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "acknowlegedAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "value": {
+                  "type": "number"
+                },
+                "acknowlegedBy": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "pattern": "^c[^\\s-]{8,}$"
+                    },
+                    "email": {
+                      "type": "string",
+                      "format": "email"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "email"
+                  ],
+                  "additionalProperties": false
+                },
+                "alertState": {
+                  "type": "string",
+                  "enum": [
+                    "normal",
+                    "warning",
+                    "alerting"
+                  ]
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              },
+              "required": [
+                "id",
+                "alertId",
+                "error",
+                "state",
+                "value",
+                "alertState",
+                "createdAt"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "alertStrategies": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "comparator": {
+                  "type": "string",
+                  "enum": [
+                    "gt",
+                    "eq",
+                    "lt",
+                    "lte",
+                    "gte"
+                  ]
+                },
+                "value": {
+                  "type": "number"
+                },
+                "pendingPeriod": {
+                  "type": "string",
+                  "enum": [
+                    "none",
+                    "min_1",
+                    "min_5",
+                    "min_10",
+                    "min_15",
+                    "min_30",
+                    "hr_1",
+                    "hr_6"
+                  ]
+                },
+                "interval": {
+                  "type": "string",
+                  "enum": [
+                    "sec_30",
+                    "min_1",
+                    "min_2",
+                    "min_5",
+                    "min_10",
+                    "min_30",
+                    "hr_1",
+                    "hr_3",
+                    "hr_6",
+                    "hr_12"
+                  ]
+                }
+              },
+              "required": [
+                "comparator",
+                "value",
+                "pendingPeriod",
+                "interval"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "alertIntegrations": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "pattern": "^c[^\\s-]{8,}$"
+                },
+                "alertId": {
+                  "type": "string",
+                  "pattern": "^c[^\\s-]{8,}$"
+                },
+                "integration": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "pattern": "^c[^\\s-]{8,}$"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "enabled": {
+                      "type": "boolean"
+                    },
+                    "config": {
+                      "type": "object",
+                      "additionalProperties": {}
+                    },
+                    "integration": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "pattern": "^c[^\\s-]{8,}$"
+                        },
+                        "name": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "type": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "type"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "createdAt",
+                    "enabled",
+                    "config",
+                    "integration"
+                  ],
+                  "additionalProperties": false
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              },
+              "required": [
+                "id",
+                "alertId",
+                "integration",
+                "createdAt"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "project": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^c[^\\s-]{8,}$"
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 120,
+                "nullable": true
+              },
+              "teamId": {
+                "type": "string",
+                "pattern": "^c[^\\s-]{8,}$"
+              },
+              "slug": {
+                "type": "string",
+                "minLength": 1
+              },
+              "description": {
+                "type": "string",
+                "nullable": true
+              },
+              "environment": {
+                "type": "string",
+                "nullable": true
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time"
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "teamId",
+              "slug",
+              "description",
+              "environment",
+              "createdAt"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "query",
+          "projectId",
+          "userId",
+          "lastNotifiedAt",
+          "createdAt",
+          "deletedAt",
+          "type",
+          "buffer",
+          "state",
+          "silenced",
+          "enabled",
+          "alertTriggers",
+          "alertStrategies",
+          "alertIntegrations",
+          "project"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "pageInfo": {
+      "type": "object",
+      "properties": {
+        "hasNextPage": {
+          "type": "boolean"
+        },
+        "hasPreviousPage": {
+          "type": "boolean"
+        },
+        "startCursor": {
+          "type": "string",
+          "nullable": true
+        },
+        "endCursor": {
+          "type": "string",
+          "nullable": true
+        }
+      },
+      "required": [
+        "hasNextPage",
+        "hasPreviousPage",
+        "startCursor",
+        "endCursor"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "nodes",
+    "pageInfo"
+  ],
+  "additionalProperties": false
+}
+```
+**default**:
+- Description: 
+
+## /projects/:id/alerts/settings/integrations
+
+<br/>
+      <span
+      style={{
+        backgroundColor: 'green',
+        color: 'white',
+        textAlign: 'center',
+        padding: '4px 8px',
+        borderRadius: '5px',
+        fontWeight: '700',
+      }}
+    >GET</span>
+      
+- Operation ID: alerts-integrations
+- Summary: Gets all possible integrations to that can be enabled for an alert
+- Description: undefined
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| ---- | -- | -------- | ---- | ----------- |
+| id | path | true | string | ID of the project that the alert belongs to. |
+
+#### Responses
+
+**200**:
+- Description: Successful response
+##### Content
+
+**application/json**:
+```json
+{
+  "type": "object",
+  "additionalProperties": {
+    "type": "array",
+    "items": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^c[^\\s-]{8,}$"
+        },
+        "integrationId": {
+          "type": "string",
+          "pattern": "^c[^\\s-]{8,}$"
+        },
+        "config": {}
+      },
+      "required": [
+        "id",
+        "integrationId"
+      ],
+      "additionalProperties": false
+    }
+  }
+}
+```
+**default**:
+- Description: 
+

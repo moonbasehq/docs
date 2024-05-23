@@ -7,7 +7,9 @@
         "type": "separator"
     },
     "logs": "Logging",
+    "alerting": "Alerting",
     "mql": "MQL",
+    "integrations": "Integrations",
     "extra": {
         "type": "separator"
     },

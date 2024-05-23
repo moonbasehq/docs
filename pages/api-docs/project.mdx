@@ -1,51 +1,3 @@
-## /projects/:id/logs
-
-<br/>
-      <span
-      style={{
-        backgroundColor: 'blue',
-        color: 'white',
-        textAlign: 'center',
-        padding: '4px 8px',
-        borderRadius: '5px',
-        fontWeight: '700',
-      }}
-    >POST</span>
-      
-- Operation ID: projects-logs
-- Summary: Push logs for a project
-- Description: Pushes logs for a specific project domain
-
-#### Parameters
-
-| Name | In | Required | Type | Description |
-| ---- | -- | -------- | ---- | ----------- |
-| id | path | true | string | ID of the project. |
-
-#### Responses
-
-**200**:
-- Description: Successful response
-##### Content
-
-**application/json**:
-```json
-{
-  "type": "object",
-  "properties": {
-    "success": {
-      "type": "boolean"
-    }
-  },
-  "required": [
-    "success"
-  ],
-  "additionalProperties": false
-}
-```
-**default**:
-- Description: 
-
 ## /:teamId/projects/slug/:slug
 
 <br/>
@@ -61,7 +13,7 @@
     >GET</span>
       
 - Operation ID: projects-getBySlug
-- Summary: Create project
+- Summary: Get project by slug
 - Description: Gets a project by a unique slug.
 
 #### Parameters
@@ -143,7 +95,7 @@
     >GET</span>
       
 - Operation ID: projects-getById
-- Summary: Create project
+- Summary: Get project
 - Description: Gets a project by a unique ID.
 
 #### Parameters
@@ -526,6 +478,54 @@
   "required": [
     "nodes",
     "pageInfo"
+  ],
+  "additionalProperties": false
+}
+```
+**default**:
+- Description: 
+
+## /projects/:id/logs
+
+<br/>
+      <span
+      style={{
+        backgroundColor: 'blue',
+        color: 'white',
+        textAlign: 'center',
+        padding: '4px 8px',
+        borderRadius: '5px',
+        fontWeight: '700',
+      }}
+    >POST</span>
+      
+- Operation ID: projectLogs-upsert
+- Summary: Push logs for a project
+- Description: Pushes logs for a specific project domain
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| ---- | -- | -------- | ---- | ----------- |
+| id | path | true | string | ID of the project. |
+
+#### Responses
+
+**200**:
+- Description: Successful response
+##### Content
+
+**application/json**:
+```json
+{
+  "type": "object",
+  "properties": {
+    "success": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "success"
   ],
   "additionalProperties": false
 }

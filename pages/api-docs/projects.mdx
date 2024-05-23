@@ -1,0 +1,271 @@
+## /projects/:id/logs
+
+<br/>
+      <span
+      style={{
+        backgroundColor: 'green',
+        color: 'white',
+        textAlign: 'center',
+        padding: '4px 8px',
+        borderRadius: '5px',
+        fontWeight: '700',
+      }}
+    >GET</span>
+      
+- Operation ID: projectLogs-list
+- Summary: Get project logs
+- Description: Gets logs for a given project
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| ---- | -- | -------- | ---- | ----------- |
+| q | query | false | undefined | A search query to find logs by. |
+| id | path | true | string | The ID of the project that the logs belong to. |
+| start | query | false | string |  |
+| end | query | false | string |  |
+| cursor | query | false | undefined | Indicates the next offset to start searching from. |
+| limit | query | false | undefined |  |
+| rel | query | false | string |  |
+
+#### Responses
+
+**200**:
+- Description: Successful response
+##### Content
+
+**application/json**:
+```json
+{
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "body": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "additionalProperties": {}
+              }
+            ]
+          },
+          "level": {
+            "type": "string"
+          },
+          "fields": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "default": []
+          },
+          "usageBytes": {
+            "type": "string",
+            "default": "0"
+          },
+          "hostname": {
+            "type": "string"
+          },
+          "service": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "attributes": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "userId": {
+            "type": "string"
+          },
+          "teamId": {
+            "type": "string"
+          },
+          "uuid": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "body",
+          "userId",
+          "teamId",
+          "uuid"
+        ],
+        "additionalProperties": false
+      },
+      "description": "A list of logs."
+    },
+    "cursor": {
+      "type": "string",
+      "nullable": true,
+      "default": null,
+      "description": "Indicates the next offset to start searching from."
+    }
+  },
+  "required": [
+    "data"
+  ],
+  "additionalProperties": false
+}
+```
+**default**:
+- Description: 
+
+## /projects/:id/logs/:logId
+
+<br/>
+      <span
+      style={{
+        backgroundColor: 'green',
+        color: 'white',
+        textAlign: 'center',
+        padding: '4px 8px',
+        borderRadius: '5px',
+        fontWeight: '700',
+      }}
+    >GET</span>
+      
+- Operation ID: projectLogs-getSingle
+- Summary: Get single log
+- Description: Gets a single log by uuid
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| ---- | -- | -------- | ---- | ----------- |
+| logId | path | true | string | The id of the log |
+| id | path | true | string | The ID of the project that the logs belong to. |
+
+#### Responses
+
+**200**:
+- Description: Successful response
+##### Content
+
+**application/json**:
+```json
+{
+  "type": "object",
+  "properties": {
+    "body": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "object",
+          "additionalProperties": {}
+        }
+      ]
+    },
+    "level": {
+      "type": "string"
+    },
+    "fields": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "default": []
+    },
+    "usageBytes": {
+      "type": "string",
+      "default": "0"
+    },
+    "hostname": {
+      "type": "string"
+    },
+    "service": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "attributes": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "userId": {
+      "type": "string"
+    },
+    "teamId": {
+      "type": "string"
+    },
+    "project": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^c[^\\s-]{8,}$",
+          "description": "The ID of the project associated with the log"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the project"
+        },
+        "type": {
+          "type": "string",
+          "nullable": true,
+          "description": "The type of project"
+        },
+        "environment": {
+          "type": "string",
+          "nullable": true,
+          "description": "Project environment"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "type",
+        "environment"
+      ],
+      "additionalProperties": false
+    },
+    "user": {
+      "type": "object",
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "description": "The display name of the user who committed the log"
+        }
+      },
+      "required": [
+        "displayName"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "body",
+    "userId",
+    "teamId",
+    "project",
+    "user"
+  ],
+  "additionalProperties": false
+}
+```
+**default**:
+- Description: 
+
