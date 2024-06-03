@@ -37,15 +37,15 @@ curl -X POST "https://api.moonbasehq.com/v1/projects/<projectId>/logs?levelKey=l
 Install the SDK. For this example, we'll be using the Node SDK.
 
 ```bash
-pnpm i --save @moonbasehq/js-core
+pnpm i --save @moonbasehq/js
 ```
 
 Configure the SDK
 
 ```js
 const moon = new Moonbase({
-  // this is a fake key, obviously
-  apiKey: "moonbase_72UyVRAPaKRhkbt1uEoa34NKhf2EsiXQqeEOjln36JU=",
+  apiKey: 'moonbase_...',
+  projectId: 'clvmvinlr0003zs0sh6z675hk'
 });
 ```
 
@@ -56,12 +56,16 @@ import { Moonbase } from "@moonbasehq/js";
 
 const messages = [
   {
-    "body": "Congrats! You published your first log.",
-    "level": "info",
+    body: "Congrats! You published your first log.",
+    some: {
+      nested: {
+        object: true
+      }
+    }
   }
 ]
 
-moon.ingest("clqq3cle50009zg3fplnzqwxs", messages).then((res) => {
+moon.ingest(messages).then((res) => {
   console.log('Done ingesting!');
 }).
 ```
