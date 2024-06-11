@@ -1,0 +1,58 @@
+# Team subscriptions
+
+By default, every team (even personal accounts are teams under the hood) are created with `free` subscriptions.
+
+Free tiers give you enough data ingest to properly get a feel for the platform. By default, free tiers are given `1gb` of free ingest for the month.
+
+If you surpass this limit on a free tier, we will have to block api calls until you upgrade your subscription.
+
+You can upgrade your subscription under the `billing` tab at the top right of the console.
+
+## Included ingest
+
+Each tier gets an amount of 'included' storage (i.e. you only pay /gb once you pass this ingest amount).
+
+```
+Free: 1gb
+Basic: 3gb
+Pro: 3gb
+```
+
+## Pricing
+
+You can view our equitable pricing plans [here](https://moonbasehq.com/pricing).
+
+
+## Ingest calculations
+
+Ingest is calculated based on how long your team has been in a subscription.
+
+You can only change subscriptions once every 24 hours.
+
+At the end of every month, we calculate how much data was ingested for the previous month based on start/finish of the subscription.
+
+### 30 day example:
+
+Total amount ingested for the month: 50gb
+
+```
+Free tier: days 1-9 -- (free)
+Basic tier: days 10-22 -- 27gb ingested, (27 * $0.39) = $10.53
+Pro tier: days 23-30 -- 13gb ingested, (13 * $0.44) = $5.72
+
+------
+
+Total billed for month: $16.25
+```
+
+## FAQs
+
+Frequenly asked questions
+
+### What happens if I surpass 1gb on a free tier?
+
+Free tiers are given 1gb and are capped at 1gb. All paid tiers have unlimited ingest + query. We do our best to inform you of your usage.
+
+### "What happens if I surpass 1gb on a free tier?"
+
+Free tiers are given 1gb and are capped at 1gb. All paid tiers have unlimited ingest + query.

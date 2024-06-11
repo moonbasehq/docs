@@ -3,6 +3,7 @@
     "quickstart": "Quickstart",
     "teams": "Teams",
     "personal-accounts": "Personal Accounts",
+    "subscriptions": "Subscriptions",
     "logging": {
         "type": "separator"
     },
@@ -14,6 +15,7 @@
         "type": "separator"
     },
     "sdks": "SDKs",
+    "libraries": "Libraries",
     "log-forwarding": "Log Forwarding",
     "api-docs": "API Docs"
 }
