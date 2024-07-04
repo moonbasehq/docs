@@ -44,7 +44,7 @@ export default {
     <>
       <link rel="icon" href="/favicon-32x32.png" type="image/png" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <meta property="og:description" content="Observability tools for fast moving teams" />
+      <meta property="og:description" content="Application monitoring for fast moving teams." />
       <meta property="og:url" content="https://beta.moonbasehq.com" />
       <meta property="og:site_name" content="Moonbase" />
       <meta property="og:locale" content="en_US" />
