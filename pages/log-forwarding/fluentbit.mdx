@@ -6,7 +6,7 @@ Its quite simple to send logs to Moonbase using Fluent Bit.
 
 ### Fluent Bit config for Moonbase
 
-```
+``` copy
 [SERVICE]
     Log_Level info
 
@@ -41,7 +41,7 @@ Moonbase allows you to pass a list of query parameters to the ingestion endpoint
 
 If you're an ECS user and you want to forward logs to Moonbase via [FireLens](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_firelens.html), you can use a similar config to below:
 
-```json
+```json copy
 "LogConfiguration": {
   "LogDriver": "awsfirelens",
     "Options": {

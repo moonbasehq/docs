@@ -22,7 +22,7 @@ You can create an API key under your team settings. This is available for both p
 
 #### 3. Send logs
 
-```bash
+```bash copy
 curl -X POST "https://api.moonbasehq.com/v1/projects/<projectId>/logs?levelKey=level" \
   -H "x-moonbase-token: <token>" \
   -H "Content-Type: application/json" \
@@ -36,13 +36,13 @@ curl -X POST "https://api.moonbasehq.com/v1/projects/<projectId>/logs?levelKey=l
 
 Install the SDK. For this example, we'll be using the Node SDK.
 
-```bash
+```bash copy
 pnpm i --save @moonbasehq/js
 ```
 
 Configure the SDK
 
-```js
+```js copy
 const moon = new Moonbase({
   apiKey: 'moonbase_...',
   projectId: 'clvmvinlr0003zs0sh6z675hk'
@@ -51,7 +51,7 @@ const moon = new Moonbase({
 
 Ingest logs for a project
 
-```js
+```js copy
 import { Moonbase } from "@moonbasehq/js";
 
 const messages = [
