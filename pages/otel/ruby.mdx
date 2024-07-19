@@ -1,4 +1,4 @@
-# Opentelemetry Ruby SDK
+# Opentelemetry Ruby SDK - WIP
 
 Use the Opentelemetry Ruby SDK to send telemetry data to Moonbase.  
 
@@ -9,7 +9,7 @@ Use the Opentelemetry Ruby SDK to send telemetry data to Moonbase.
 
 - A service written in Ruby
 
-- Moonbase Project id
+- Moonbase Project Id
 
 - Moonbase api token
 
@@ -17,24 +17,24 @@ Use the Opentelemetry Ruby SDK to send telemetry data to Moonbase.
 ### Needed dependencies
 Add the following dependencies to your Gemfile
 
-```ruby
+```ruby copy
 gem 'opentelemetry-sdk'
 gem 'opentelemetry-exporter-otlp'
 gem 'opentelemetry-instrumentation-all'
 ```
 Install after adding
-```sh
+```sh copy
 bundle install
 ```
 
 Set the exporter endpoint enviroment variable
 
-```sh
+```sh copy
 export OTEL_EXPORTER_OTLP_ENDPOINT="http://api.moonbase.hqdev:8085/v1/traces"
 ```
 
 ### Configure Opentelemetry SDK
-```ruby
+```ruby copy
 # config/initializers/opentelemetry.rb
 require 'opentelemetry/sdk'
 require 'opentelemetry/instrumentation/all'
