@@ -1,0 +1,51 @@
+# Opentelemetry Ruby SDK
+
+Use the Opentelemetry Ruby SDK to send telemetry data to Moonbase.  
+
+
+### What you need to start
+
+- A working Ruby environment with Ruby 2.5 or higher
+
+- A service written in Ruby
+
+- Moonbase Project id
+
+- Moonbase api token
+
+
+### Needed dependencies
+Add the following dependencies to your Gemfile
+
+```ruby
+gem 'opentelemetry-sdk'
+gem 'opentelemetry-exporter-otlp'
+gem 'opentelemetry-instrumentation-all'
+```
+Install after adding
+```sh
+bundle install
+```
+
+Set the exporter endpoint enviroment variable
+
+```sh
+export OTEL_EXPORTER_OTLP_ENDPOINT="http://api.moonbase.hqdev:8085/v1/traces"
+```
+
+### Configure Opentelemetry SDK
+```ruby
+# config/initializers/opentelemetry.rb
+require 'opentelemetry/sdk'
+require 'opentelemetry/instrumentation/all'
+require 'opentelemetry-exporter-otlp'
+
+otel_exporter = OpenTelemetry::Exporter::OTLP::Exporter.new(endpoint: ENV['OTEL_EXPORTER_OTLP_ENDPOINT'])
+processor = OpenTelemetry::SDK::Trace::Export::BatchSpanProcessor.new(otel_exporter)
+
+OpenTelemetry::SDK.configure do |c|
+  c.service_name = 'dice-ruby'
+  c.add_span_processor(processor)
+  c.use_all() # enables all instrumentation!
+end
+```
